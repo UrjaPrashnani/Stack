@@ -1,95 +1,59 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Class to implement Minimum Stack
-class MinStack {
-private:
-    // Initialize a stack
-    stack <int> st;
-    // To store the minimum value 
-    int mini;
-    
+class Solution {
 public:
-    
-    // Empty Constructor
-    MinStack() {
-    }
-    
-    // Method to push a value in stack
-    void push(int value) {
+    // Function to calculate trapped rainwater using the optimal two-pointer approach
+    int trap(vector<int>& height) {
+        int n = height.size();
         
-        // If stack is empty
-        if(st.empty()) {
-            //Update the minimum value
-            mini = value;
+        // Initialize two pointers at both ends of the array
+        int left = 0;
+        int right = n - 1;
+        
+        // Variables to track the maximum height to the left and right
+        int maxLeft = 0;
+        int maxRight = 0;
+        
+        // Variable to store total trapped water
+        int totalWater = 0;
+        
+       
+        while (left <right) {
+            maxLeft =max(maxLeft,height[left] );
+            maxRight =max(maxRight,height[right] );
+            if (height[left] < height[right]) {
+               
+                    totalWater += maxLeft - height[left];
+                    left++;
+            }
+            else {
+               
+                    totalWater += maxRight - height[right];
+                    right--;
+                }
+                 
             
-            // Push current value as minimum
-            st.push( value );
-            return;
         }
         
-        // If the value is greater than the minimum
-        if(value > mini) {
-            st.push(value);
-        }
-        else {
-            // Add the modified value to stack
-            st.push(2 * value - mini);
-            // Update the minimum
-            mini = value;
-        }
-    }
-    
-    // Method to pop a value from stack
-    void pop() {
-        // Base case
-        if(st.empty()) return;
-        
-        // Get the top
-        int x = st.top();
-        st.pop(); // Pop operation
-        
-        // If the modified value was added to stack
-        if(x < mini) {
-            // Update the minimum
-            mini = 2 * mini - x;
-        }
-    }
-    
-    // Method to get the top of stack
-    int top() {
-        // Base case
-        if(st.empty()) return -1;
-        
-        // Get the top
-        int x = st.top();
-        
-        // Returnn top if minimum is less than the top
-        if(mini < x) return x;
-        
-        //Otherwise return mini
-        return mini;
-    }
-    
-    // Method to get the minimum in stack
-    int getMin() {
-        // Return the minimum
-        return mini;
+        // Return total trapped water
+        return totalWater;
     }
 };
 
+// Driver code
 int main() {
-    MinStack s;
+    // Input elevation map
+    vector<int> height = {0,1,0,2,1,0,1,3,2,1,2,1};
     
-    // Function calls
-    s.push(-2);
-    s.push(0);
-    s.push(-3);
-    cout << s.getMin() << " ";
-    s.pop();
-    cout << s.top() << " ";
-    s.pop();
-    cout << s.getMin();
+    // Create Solution object
+    Solution sol;
+    
+    // Calculate trapped water
+    int result = sol.trap(height);
+    
+    // Print the result
+    cout << "Trapped Rainwater: " << result << endl;
     
     return 0;
 }
