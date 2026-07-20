@@ -1,3 +1,63 @@
+// Brute
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    // Function to find the span of stock prices for each day
+    vector <int> stockSpan(vector<int> arr, int n) {
+        
+        // To store the answer
+        vector<int> ans(n);
+        
+        // Traverse on the array
+        for(int i=0; i < n; i++) {
+            
+            // To store the current span of stocks
+            int currSpan = 0;
+            
+            // Traversing backwards to find stock span
+            for(int j=i; j >= 0; j--) {
+            
+                // Update stock span
+                if(arr[j] <= arr[i]) {
+                    currSpan++;
+                }
+                
+                // Else break out from loop
+                else break;
+            }
+            
+            // Store the current span
+            ans[i] = currSpan;
+        }
+        
+        // Return the result
+        return ans;
+    }
+};
+
+int main() {
+    int n = 7;
+    vector<int> arr = {120, 100, 60, 80, 90, 110, 115};
+    
+    /* Creating an instance of 
+    Solution class */
+    Solution sol; 
+    
+    /* Function call to find the span 
+    of stock prices for each day */
+    vector<int> ans = sol.stockSpan(arr, n);
+    
+    cout << "The span of stock prices is: ";
+    for(int i=0; i < n; i++) {
+        cout << ans[i] << " ";
+    }
+    
+    return 0;
+}
+
+// Optimal 
 #include <bits/stdc++.h>
 using namespace std;
 
